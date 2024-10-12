@@ -1,0 +1,45 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+    <!-- Encabezado -->
+    <header class="bg-primary text-white text-center py-5">
+        <div class="container">
+            <h1>{{ title1 }}</h1>
+            <p class="lead">Cuidando tu salud con excelencia y dedicación.</p>
+        </div>
+    </header>
+
+    <!-- Sección de Servicios -->
+    <div class="container my-5">
+        <h2 class="text-center">Nuestros Servicios</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Consulta Médica</h5>
+                        <p class="card-text">Realizamos consultas médicas con profesionales capacitados.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Exámenes de Laboratorio</h5>
+                        <p class="card-text">Ofrecemos una amplia gama de exámenes clínicos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Atención de Emergencias</h5>
+                        <p class="card-text">Servicio de urgencias disponible 24/7.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
