@@ -127,6 +127,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+# URL a la que se redirige después de iniciar sesión
+LOGIN_REDIRECT_URL = 'core:home'  # O cualquier vista a la que quieras redirigir después de login
+
+# URL a la que se redirige cuando el usuario cierra sesión
+LOGOUT_REDIRECT_URL = 'core:home'  # O cualquier vista a la que quieras redirigir después de logout
+
+# URL de login (usada por LoginRequiredMixin cuando un usuario no autenticado intenta acceder a una vista protegida)
+LOGIN_URL = 'login'  # Esto debe coincidir con el nombre de la URL para el login
+
+# URL de logout si decides tener una vista de logout personalizada
+LOGOUT_URL = 'logout'  # Esto debe coincidir con el nombre de la URL para el logout
+
+# settings.py
+
+LOGOUT_REDIRECT_URL = 'core:home'  # Redirige a la página principal después de cerrar sesión
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

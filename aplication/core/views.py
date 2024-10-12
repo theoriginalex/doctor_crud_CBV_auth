@@ -1,9 +1,13 @@
-from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView, LogoutView
+
 from aplication.core.forms import DoctorForm
 from aplication.core.models import Doctor
 
-
+# Home
 class Home(TemplateView):
     template_name = 'core/home.html'
     
@@ -13,11 +17,12 @@ class Home(TemplateView):
         context['title1'] = "Sistema Medico Online"
         return context
 
-
-class DoctorList(ListView):
+# Lista de Doctores (solo accesible si se ha iniciado sesión)
+class DoctorList(LoginRequiredMixin, ListView):
     model = Doctor
     template_name = 'core/doctor/list.html'
     context_object_name = 'doctores'
+    login_url = 'login'  # Redirige a la vista de login si no está autenticado
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -25,11 +30,13 @@ class DoctorList(ListView):
         context['title1'] = "Consulta de Doctores"
         return context
 
-class DoctorCrear(CreateView):
+# Crear Doctor
+class DoctorCrear(LoginRequiredMixin, CreateView):
     model = Doctor
     form_class = DoctorForm
     template_name = 'core/doctor/form.html'
     success_url = reverse_lazy('core:doctor_list')
+    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -43,12 +50,13 @@ class DoctorCrear(CreateView):
         context['error'] = "Error al crear el Doctor."
         return self.render_to_response(context)
 
-
-class DoctorUpdate(UpdateView):
+# Actualizar Doctor
+class DoctorUpdate(LoginRequiredMixin, UpdateView):
     model = Doctor
     form_class = DoctorForm
     template_name = 'core/doctor/form.html'
     success_url = reverse_lazy('core:doctor_list')
+    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,11 +70,12 @@ class DoctorUpdate(UpdateView):
         context['error'] = "Error al editar el Doctor."
         return self.render_to_response(context)
 
-
-class DoctorDelete(DeleteView):
+# Eliminar Doctor
+class DoctorDelete(LoginRequiredMixin, DeleteView):
     model = Doctor
     template_name = 'core/doctor/delete.html'
     success_url = reverse_lazy('core:doctor_list')
+    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -74,3 +83,87 @@ class DoctorDelete(DeleteView):
         context['title1'] = "Eliminar Doctor"
         return context
 
+# Registro de usuario
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'registration/signup.html'
+    success_url = reverse_lazy('core:home')  # Redirige a la página principal después del registro
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+# Iniciar sesión
+class SignInView(LoginView):
+    template_name = 'registration/signin.html'
+    form_class = AuthenticationForm
+    redirect_authenticated_user = True  # Redirige al usuario autenticado si ya ha iniciado sesión
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+# Cerrar sesión
+class SignOutView(LogoutView):
+    next_page = reverse_lazy('core:home')  # Redirige a la página principal después de cerrar sesión
+
+
+#----------------------------------------------------------------
+# aplication/core/views.py
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Medicamento
+from .forms import MedicamentoForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class MedicamentoList(LoginRequiredMixin, ListView):
+    model = Medicamento
+    template_name = 'core/medicamento/list.html'
+    context_object_name = 'medic'
+    login_url = 'core:login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Lista de Medicamentos"
+        return context
+
+
+class MedicamentoCreate(LoginRequiredMixin, CreateView):
+    model = Medicamento
+    form_class = MedicamentoForm
+    template_name = 'core/medicamento/form.html'
+    success_url = reverse_lazy('core:medicamento_list')
+    login_url = 'core:login'
+
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user  # Asignar el usuario actual
+        return super().form_valid(form)
+    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Agregar Medicamento"
+        return context
+
+
+class MedicamentoUpdate(LoginRequiredMixin, UpdateView):
+    model = Medicamento
+    form_class = MedicamentoForm
+    template_name = 'core/medicamento/form.html'
+    success_url = reverse_lazy('core:medicamento_list')
+    login_url = 'core:login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Editar Medicamento"
+        return context
+
+
+class MedicamentoDelete(LoginRequiredMixin, DeleteView):
+    model = Medicamento
+    template_name = 'core/medicamento/delete.html'
+    success_url = reverse_lazy('core:medicamento_list')
+    login_url = 'core:login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Eliminar Medicamento"
+        return context

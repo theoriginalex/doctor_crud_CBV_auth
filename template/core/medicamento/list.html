@@ -1,0 +1,37 @@
+<!-- templates/core/medicamento/list.html -->
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <a href="{% url 'core:medicamento_create' %}" class="btn btn-primary">Agregar Medicamento</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Usuario</th> <!-- Nueva columna para el usuario -->
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicamento in medic %}
+                <tr>
+                    <td>{{ medicamento.descripcion }}</td>
+                    <td>${{ medicamento.precio }}</td>
+                    <td>{{ medicamento.stock }}</td>
+                    <td>{{ medicamento.estado|yesno:"Activo,Inactivo" }}</td>
+                    <td>{{ medicamento.usuario.username }}</td> <!-- Muestra el nombre completo del usuario -->
+                    <td>
+                        <a href="{% url 'core:medicamento_update' medicamento.pk %}" class="btn btn-warning">Editar</a>
+                        <form action="{% url 'core:medicamento_delete' medicamento.pk %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
