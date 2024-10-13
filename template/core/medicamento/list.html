@@ -1,37 +1,55 @@
-<!-- templates/core/medicamento/list.html -->
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
-    <a href="{% url 'core:medicamento_create' %}" class="btn btn-primary">Agregar Medicamento</a>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Estado</th>
-                <th>Usuario</th> <!-- Nueva columna para el usuario -->
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for medicamento in medic %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6">{{ title }}</h1>
+        <a href="{% url 'core:medicamento_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Agregar Medicamento
+        </a>
+    </div>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-primary">
                 <tr>
-                    <td>{{ medicamento.descripcion }}</td>
-                    <td>${{ medicamento.precio }}</td>
-                    <td>{{ medicamento.stock }}</td>
-                    <td>{{ medicamento.estado|yesno:"Activo,Inactivo" }}</td>
-                    <td>{{ medicamento.usuario.username }}</td> <!-- Muestra el nombre completo del usuario -->
-                    <td>
-                        <a href="{% url 'core:medicamento_update' medicamento.pk %}" class="btn btn-warning">Editar</a>
-                        <form action="{% url 'core:medicamento_delete' medicamento.pk %}" method="POST" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
-                    </td>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Estado</th>
+                    <th>Usuario</th> <!-- Nueva columna para el usuario -->
+                    <th>Acciones</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% if medic %}
+                    {% for medicamento in medic %}
+                        <tr>
+                            <td>{{ medicamento.descripcion }}</td>
+                            <td>${{ medicamento.precio }}</td>
+                            <td>{{ medicamento.stock }}</td>
+                            <td>
+                                <span class="badge {% if medicamento.estado %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ medicamento.estado|yesno:"Activo,Inactivo" }}
+                                </span>
+                            </td>
+                            <td>{{ medicamento.usuario.username }}</td> <!-- Muestra el nombre del usuario -->
+                            <td>
+                                <a href="{% url 'core:medicamento_update' medicamento.pk %}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                                <a href="{% url 'core:medicamento_delete' medicamento.pk %}" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-pencil-square"></i>Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-muted">No hay medicamentos registrados.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

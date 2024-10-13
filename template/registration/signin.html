@@ -1,12 +1,71 @@
 {% extends 'layouts/base.html' %}
+
 {% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white" style="background: linear-gradient(to right, #6a11cb, #2575fc);">
+                    <h2 class="mb-0 text-center">Iniciar Sesión</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Estilos personalizados para los campos de formulario -->
+                        <div class="form-group">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                            <div class="text-danger">{{ form.username.errors }}</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.password.label_tag }}
+                            {{ form.password }}
+                            <div class="text-danger">{{ form.password.errors }}</div>
+                        </div>
 
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-block" style="background-color: #2575fc;">Iniciar Sesión</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-  <h2>Iniciar Sesión</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Iniciar Sesión</button>
-  </form>
+<style>
+    /* Mejora de estilos para las etiquetas y campos de formulario */
+    label {
+        font-weight: bold;
+        color: #4a4a4a;
+        font-size: 1.1rem;
+    }
 
+    input {
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+        padding: 10px;
+        font-size: 1rem;
+        width: 100%;
+        transition: border-color 0.3s;
+    }
+
+    input:focus {
+        border-color: #2575fc;
+        box-shadow: 0 0 5px rgba(37, 117, 252, 0.3);
+        outline: none;
+    }
+
+    .btn-primary {
+        font-size: 1.2rem;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .text-danger {
+        font-size: 0.9rem;
+    }
+</style>
 {% endblock %}

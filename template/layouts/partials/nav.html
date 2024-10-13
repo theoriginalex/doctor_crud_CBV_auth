@@ -1,38 +1,55 @@
-<!-- Barra de navegación -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'core:home' %}">Inicio</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <!-- Si el usuario está autenticado, mostramos los enlaces adicionales -->
-            {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:doctor_list' %}">Doctores</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:medicamento_list' %}">Medicamento</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contacto</a>
-                </li>
-                <li class="nav-item">
-                    <!-- Formulario para cerrar sesión -->
-                    <form method="POST" action="{% url 'core:logout' %}" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="nav-link btn" style="background: none; border: none; padding: 0; margin: 0; color: inherit; cursor: pointer;">Cerrar Sesión</button>
-                    </form>
-                </li>
-            <!-- Si el usuario NO está autenticado, mostramos los enlaces de Iniciar sesión y Registrarse -->
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:login' %}">Iniciar Sesión</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:signup' %}">Registrarse</a>
-                </li>
-            {% endif %}
-        </ul>
+<!-- Barra de navegación estilo azul y blanco -->
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #007bff;">
+    <div class="container">
+        <a class="navbar-brand text-white text-uppercase" href="{% url 'core:home' %}">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto text-center">
+                <!-- Si el usuario está autenticado, mostramos los enlaces adicionales -->
+                
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'core:doctor_list' %}">
+                            <i class="fas fa-user-md"></i> Doctores
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'core:medicamento_list' %}">
+                            <i class="fas fa-pills"></i> Medicamento
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="#">
+                            <i class="fas fa-envelope"></i> Contacto
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item mx-2">
+                        <!-- Formulario para cerrar sesión -->
+                        <form method="POST" action="{% url 'core:logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn text-uppercase py-2 px-3" style="color: #007bff; background-color: white; border: 2px solid #007bff; border-radius: 50px;">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </button>
+                        </form>
+                    </li>
+                <!-- Si el usuario NO está autenticado, mostramos los enlaces de Iniciar sesión y Registrarse -->
+                {% else %}
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'core:login' %}">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'core:signup' %}">
+                            <i class="fas fa-user-plus"></i> Registrarse
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
 </nav>
