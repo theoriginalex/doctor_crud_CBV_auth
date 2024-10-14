@@ -61,6 +61,7 @@ class License(models.Model):
         return f'License {self.license_number} - Doctor {self.doctor.name}'
 
 class Medicamento(models.Model):
+    nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=255)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()

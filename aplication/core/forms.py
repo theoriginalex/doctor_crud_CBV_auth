@@ -11,7 +11,7 @@ class DoctorForm(forms.ModelForm):
 class MedicamentoForm(forms.ModelForm):
     class Meta:
         model = Medicamento
-        fields = ['descripcion', 'precio', 'stock', 'estado']
+        fields = ['nombre', 'descripcion', 'precio', 'stock', 'estado']
         widgets = {
             'estado': forms.CheckboxInput(),
         }
