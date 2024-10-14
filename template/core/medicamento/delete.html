@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body p-4">
                     <p class="lead text-center">¿Estás seguro de que deseas eliminar el siguiente medicamento?</p>
-                    <h5 class="text-center text-danger mb-4">{{ object.descripcion }}</h5> <!-- Nombre del medicamento -->
+                    <h5 class="text-center text-danger mb-4">{{ object.nombre }}</h5> <!-- Nombre del medicamento -->
                     <form method="POST" class="text-center">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-lg px-4">
