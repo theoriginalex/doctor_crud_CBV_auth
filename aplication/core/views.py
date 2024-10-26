@@ -4,11 +4,11 @@ from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 
-from aplication.core.forms import DoctorForm, MedicamentoForm
-from aplication.core.models import Doctor, Medicamento
+from aplication.core.forms import DoctorForm, MedicamentoForm, LicenseForm
+from aplication.core.models import Doctor, Medicamento, License
 
-
-
+#user1
+#sinfronteras
 ################################################################
 # Registro de usuario
 class SignUpView(CreateView):
@@ -166,3 +166,55 @@ class MedicamentoDelete(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Eliminar Medicamento"
         return context
+
+
+################################################################################
+
+
+
+class LicenseList(ListView):
+    model = License
+    template_name = 'core/license/list.html'
+    context_object_name = 'licenses'
+    login_url = 'core:login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Consulta de Licencias"
+        return context
+
+class LicenseCreate(LoginRequiredMixin, CreateView):
+    model = License
+    form_class = LicenseForm
+    template_name = 'core/license/form.html'
+    success_url = reverse_lazy('core:license_list')
+    login_url = 'core:login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Agregar Licencia"
+        return context
+
+class LicenseUpdate(LoginRequiredMixin, UpdateView):
+    model = License
+    form_class = LicenseForm
+    template_name = 'core/license/form.html'
+    success_url = reverse_lazy('core:license_list')
+    login_url = 'core:login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Editar Licencia"
+        return context
+
+class LicenseDelete(LoginRequiredMixin, DeleteView):
+    model = License
+    template_name = 'core/license/delete.html'
+    success_url = reverse_lazy('core:license_list')
+    login_url = 'core:login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Eliminar Licencia"
+        return context
+

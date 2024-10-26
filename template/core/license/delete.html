@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center text-danger mb-4">{{ title }}</h1>
+        
+        <p class="text-center">¿Estás seguro de que deseas eliminar la licencia <strong>{{ object.license_number }}</strong> del doctor <strong>{{ object.doctor }}</strong>?</p>
+        
+        <form method="post" class="text-center">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'core:license_list' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

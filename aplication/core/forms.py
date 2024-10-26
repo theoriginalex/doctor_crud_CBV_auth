@@ -1,6 +1,6 @@
 from django import forms
 
-from aplication.core.models import Doctor, Medicamento
+from aplication.core.models import Doctor, Medicamento, License
 
 class DoctorForm(forms.ModelForm):
     class Meta:
@@ -14,4 +14,18 @@ class MedicamentoForm(forms.ModelForm):
         fields = ['nombre', 'descripcion', 'precio', 'stock', 'estado']
         widgets = {
             'estado': forms.CheckboxInput(),
+        }
+
+
+class LicenseForm(forms.ModelForm):
+    class Meta:
+        model = License
+        fields = ['doctor', 'license_number', 'issued_date']
+        widgets = {
+            'issued_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+        labels = {
+            'doctor': 'Doctor',
+            'license_number': 'Número de Licencia',
+            'issued_date': 'Fecha de Emisión',
         }
