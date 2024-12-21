@@ -22,7 +22,11 @@ class LicenseForm(forms.ModelForm):
         model = License
         fields = ['doctor', 'license_number', 'issued_date']
         widgets = {
-            'issued_date': forms.DateInput(attrs={'type': 'date'}),
+            'issued_date': forms.DateInput(
+                attrs={
+                    'type': 'date',
+                }, format='%Y-%m-%d'
+            ),
         }
         labels = {
             'doctor': 'Doctor',
